@@ -69,3 +69,6 @@ SELECT u.name, c.brand, c.amount  FROM cards c JOIN clients u ON c.client_id = u
 SELECT b.id, b.quantity, c.name, price_total(b.id) as total  FROM buys b
     JOIN clients c
     ON b.client_id = c.id;
+
+--Consulta a una view creada
+SELECT * FROM cantidad_precio_buys;
