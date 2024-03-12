@@ -1,5 +1,5 @@
 DROP DATABASE IF EXIST sql_database;
-CREATE DATABASE IF EXISTS sql_database;
+CREATE DATABASE IF NOT EXISTS sql_database;
 USE sql_database;
 DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS cards;
@@ -9,22 +9,6 @@ SHOW TABLES;
 SET @iva = 123;
 
 --Modelos
-CREATE TABLE cards (
-    id INT UNIQUE NOT NULL AUTO_INCREMENT, 
-    brand VARCHAR(100) NOT NULL, 
-    type_card ENUM('DEBIT', 'CREDIT') NOT NULL, 
-    amount DOUBLE NOT NULL,
-    client_id INT, 
-    FOREIGN KEY (client_id) REFERENCES clients (id)
-);
-INSERT INTO cards ( brand, type_card, amount, client_id)
-VALUES ('MasterCard', 'CREDIT', 120000.12, 1),
-    ('Visa', 'CREDIT', 50700, 2),
-    ('Uala', 'DEBIT', 12000, 1),
-    ('BruBank', 'CREDIT', 40500.50, 4);
-SELECT * FROM cards;
-SELECT u.name, c.brand, c.amount  FROM cards c JOIN clients u ON c.client_id = u.id;
-
 CREATE TABLE clients (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
@@ -38,6 +22,19 @@ VALUES ('Lucas', 24, 1),
     ('Robertinhi', 19, 'MALE'),
     ('Marcelo', 4, 'MALE');
 
+CREATE TABLE cards (
+    id INT UNIQUE NOT NULL AUTO_INCREMENT, 
+    brand VARCHAR(100) NOT NULL, 
+    type_card ENUM('DEBIT', 'CREDIT') NOT NULL, 
+    amount DOUBLE NOT NULL,
+    client_id INT, 
+    FOREIGN KEY (client_id) REFERENCES clients (id)
+);
+INSERT INTO cards ( brand, type_card, amount, client_id)
+VALUES ('MasterCard', 'CREDIT', 120000.12, 1),
+    ('Visa', 'CREDIT', 50700, 2),
+    ('Uala', 'DEBIT', 12000, 1),
+    ('BruBank', 'CREDIT', 40500.50, 4);
 CREATE TABLE products (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
     name VARCHAR(50) NOT NULL, 
@@ -49,7 +46,6 @@ VALUES ('Xiaomi', 40000, 1),
        ('Silla de madera', 5500.99, 3),
        ('Pelota', 10100, 6),
        ('Tablet', 63700.50, 1);
-SELECT * FROM products;
 
 CREATE TABLE buys (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -60,13 +56,16 @@ CREATE TABLE buys (
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 INSERT INTO buys (quantity, product_id, client_id)
-VALUES (3, 10, 2),
-       (2, 12, 1);
+VALUES (3, 1, 2),
+       (2, 3, 1);
+
+--Consultas
+SELECT * FROM clients;
+SELECT * FROM cards;
+SELECT * FROM products;
 SELECT * FROM buys;
+
+SELECT u.name, c.brand, c.amount  FROM cards c JOIN clients u ON c.client_id = u.id;
 SELECT b.id, b.quantity, c.name, price_total(b.id) as total  FROM buys b
     JOIN clients c
     ON b.client_id = c.id;
-CREATE VIEW cantidad AS
-SELECT b.id, b.quantity, p.name, p.category, price_total(b.id) FROM buys b
-    JOIN products p
-    WHERE b.product_id = p.id;
