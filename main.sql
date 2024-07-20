@@ -20,7 +20,10 @@ INSERT INTO clients (name, age, gender)
 VALUES ('Lucas', 24, 1),
     ('Mariana', 41, 'FEMALE'),
     ('Robertinhi', 19, 'MALE'),
-    ('Marcelo', 4, 'MALE');
+    ('Marcelo', 4, 'MALE'),
+    ('Marcelo', 32, 'MALE'),
+    ('Lali', 25, 'FEMALE'),
+    ('Lali', 21, 'FEMALE');
 
 CREATE TABLE cards (
     id INT UNIQUE NOT NULL AUTO_INCREMENT, 
