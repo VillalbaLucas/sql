@@ -21,3 +21,15 @@ SELECT * FROM clients  ORDER BY name ASC;
 SELECT DISTINCT name FROM clients ORDER BY name ASC; 
 SELECT * FROM clients WHERE name LIKE "lali" ORDER BY age ASC; 
 SELECT * FROM clients ORDER BY name ASC LIMIT 3 OFFSET 0; 
+
+-- JOINS
+
+SELECT name, brand, type_card, amount FROM clients 
+    INNER JOIN cards ON clients.id = client_id
+    ORDER BY amount ASC;
+SELECT name, brand, type_card, amount FROM clients 
+    RIGHT JOIN cards ON clients.id = client_id;
+SELECT name, brand, type_card, amount FROM clients 
+    LEFT JOIN cards ON clients.id = client_id;
+SELECT * FROM clients 
+    FULL JOIN cards ON clients.id = cards.client_id;
